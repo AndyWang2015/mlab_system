@@ -6,7 +6,10 @@ body {
 .loading{
 	@include f;
 	z-index:999;
-	background-color:rgba(255,255,255,0.8);
+	background-color:rgba(238,238,238,1);
+	&.on{
+		background-color:rgba(255,255,255,0.8);
+	}
 	span{
 		@include a(200px,50px,50%,50%,-100px,-25px);
 		@include font(21px,50px,#000);
@@ -26,12 +29,20 @@ body {
 .login_page{
 	@include f;
 	z-index:998;
-	background-color:#eee;
+	background-color:#eee;	
 	.login_pagein{
 		@include a(400px,250px,50%,50%,-200px,-155px);
-		@include border-radius(25px);		
+		@include border-radius(25px);
+		transition:0.5s;		
 		background-color:#FFF;
 		box-shadow:3px 3px 5px #ccc;		
+		&.on{
+			height: 400px;
+			margin-top: -230px;
+			.login_pagein_allin{
+				@include transform(translateX(-100%));
+			}
+		}
 		.login_pagein_t{
 			@include a(100%,auto,0,-60px);
 			@include font(28px,40px,#333,bolder);			
@@ -41,6 +52,10 @@ body {
 		.login_pagein_all{
 			@include a;
 			overflow: hidden;
+			.login_pagein_allin{
+				@include a;
+				transition:0.5s;							
+			}			
 			ul{
 				@include a;
 				box-sizing:border-box;
@@ -86,12 +101,51 @@ body {
 				left: 100%;
 			}
 		}
-			
+		.msg{
+			@include a(100%,30px,0,auto);
+			@include font(15px,30px,#666);
+			text-align: center;
+			bottom: -50px;
+			display: none;
+			.icon{
+				width: 20px;
+				height: 20px;
+				margin-left: 5px;
+				margin-top: 3px;
+				background: url(../images/status_ok2.png) no-repeat;
+				background-position: center;
+				display: inline-block;
+				vertical-align: top;
+			}
+		}
 	}
-
 }
 .andy_test{
 	@include r;
+	.userMenu{
+		@include f(auto,auto,auto,25px);
+		right: 25px;
+		.icon{
+			@include r(30px,30px);
+			@include border-radius(15px);
+			@include font(21px,30px,#FFF,normal,'Arial');
+			margin-right: 5px;
+			text-align: center;
+			text-transform:uppercase;
+			background-color: #78909c;
+		}
+		.name{
+			@include r(auto,30px);
+			@include font(15px,30px,#333);
+			margin-right: 20px;
+		}
+		.logoutbtn{
+			@include r(auto,30px);
+			@include font(15px,30px,#333);
+			cursor: pointer;
+			&:hover{color:#999;}
+		}
+	}
 	.title{
 		@include r;
 		@include font(60px,72px,#000);
