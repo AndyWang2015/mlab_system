@@ -165,19 +165,60 @@ body {
 		box-sizing:border-box;
 		padding:10px;
 		background-color:#e8e8e8;
-		.posttitle,.postdes{
-			@include r(40%);
-			@include font(15px,27px,#000);		
-			background-color:#FFF;
-			margin-right:2%;
-			box-sizing:border-box;
-			padding:5px;
-		}
+		.databox{
+			@include r(84%);
+			.lt{
+				@include r(49%);
+				margin-right: 2%;
+				input,textarea{
+					@include r(100%);
+					@include font(15px,27px,#000);		
+					background-color:#FFF;
+					margin-right:2%;
+					margin-bottom: 2%;
+					box-sizing:border-box;
+					padding:5px;
+				}
+				textarea{margin-bottom: 0;}
+			}
+			.rt{
+				@include r(47%);
+				min-height: 111px;
+				#imgInput{display: none;}
+				.imgInputlabel{
+					@include a;
+					z-index: 1;
+					cursor: pointer;
+					background-color: #FFF;
+					opacity: 1;
+					span{
+						@include a(100%,26px,0,50%,0,-13px);
+						@include font(13px,26px,#333);
+						text-align: center;
+					}
+				}
+				&.on{
+					.imgInputlabel{
+						opacity: 0;
+					}
+					img{
+						opacity: 1;
+					}
+				}
+				img{
+					@include r;
+					opacity: 0;
+					transition:0.3s;
+					z-index: 0;					
+				}
+			}
+		}		
 		.gobtn{
 			@include r(16%);
 			@include font(15px,27px,#fff);		
 			background-color:#999;
-			text-align:center;		
+			text-align:center;
+			cursor: pointer;
 		}
 	}
 	.t{
@@ -187,8 +228,12 @@ body {
 		padding:10px;
 		color:#000;
 		.postid{
-			@include r(25%);
+			@include r(10%);
 			text-align:center;
+		}
+		.postphoto{
+			@include r(15%);
+			text-align: center;
 		}
 		.posttitle,.postdes{
 			@include r(30%);		
@@ -202,6 +247,7 @@ body {
 	}
 	.paper{
 		@include r;	
+		padding-bottom: 100px;
 		li{
 			@include r;
 			@include font(12px,24px,#000);		
@@ -213,8 +259,30 @@ body {
 				background-color:#eee;
 			}
 			.postid{
-				@include r(25%);
+				@include r(10%);
 				text-align:center;
+			}
+			.postphoto{
+				@include r(15%);
+				#imgInputMotify{display: none;}
+				.imgInputlabel{
+					@include a;
+					z-index: 1;
+					cursor: pointer;
+					opacity: 1;
+					background-color: rgba(255,255,255,0.5);
+					span{
+						@include a(100%,26px,0,50%,0,-13px);
+						@include font(13px,26px,#333);
+						text-align: center;
+					}
+				}
+				img{
+					width: 100%;
+					vertical-align: top;
+					display: inline-block;
+					z-index: 0;
+				}
 			}
 			.posttitle,.postdes{
 				@include r(30%);			

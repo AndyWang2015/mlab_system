@@ -6,25 +6,19 @@
 	webData.creatUsererrortxt = "請填寫完整資料";
 	
 
-	//Addlistener
-	$('.userMenu .logoutbtn').click(function(){logout();});
+	//Addlistener	
 	$('.login_pagein .submitbtn').click(function(){signup();});
 	$('.login_pagein .cancelbtn').click(function(){gosignup(false);});
 	$('.login_pagein .singupbtn').click(function(){gosignup(true);});
-	$('.login_pagein .surebtn').click(function(){userlogin($('.login_page .useraccount').val(),$('.login_page .userpassword').val());});	
-	$(".andy_test .new .gobtn").click(function(){insertPaper();});
+	$('.login_pagein .surebtn').click(function(){userlogin($('.login_page .useraccount').val(),$('.login_page .userpassword').val());});
+	
 
 	$(window).load(function(){
 		if(checkLogin()) userlogin($.cookie("useraccount"),$.cookie("userpassword"));
 		else showLoading(false);
 	});
 
-	//Event
-	function logout(){
-		$.cookie("useraccount", '');
-		$.cookie("userpassword", '');
-		location.reload();
-	}
+	//Event	
 	function signup(){
 		var _url = 'https://api.mlab.com/api/1/databases/chinesechess2016/collections/user?q={useraccount:"'+$('.login_page .signaccount').val()+'"}&apiKey='+ webData.mlabApikey;
 		showLoading(true);
@@ -94,12 +88,10 @@
 	}
 	function afterLogin(){
 		if(webData.islogin!=''){			
-			showlogin_page(false);
-			getPaper();
-			$('.userMenu .icon').html(webData.islogin[0].useraccount.substring(0, 1));
-			$('.userMenu .name').html(webData.islogin[0].username);
 			$.cookie("useraccount", webData.islogin[0].useraccount);
-			$.cookie("userpassword", webData.islogin[0].userpassword);			
+			$.cookie("userpassword", webData.islogin[0].userpassword);
+			$.cookie("username", webData.islogin[0].username);
+			window.location.href="main.html";
 		}else{			
 			showLoading(false);
 			alert(webData.loginerrortxt);			
@@ -109,120 +101,14 @@
 		var _t = false;
 		if($.cookie("useraccount") && $.cookie("userpassword")) _t = true;
 		return _t;
-	}
-	function deletPaper(_n){
-		$.ajax({
-			url: 'https://api.mlab.com/api/1/databases/chinesechess2016/collections/paperid/'+webData.newPaperdata[_n]._id.$oid+'?apiKey='+ webData.mlabApikey,
-			type: "DELETE",
-			async: true,
-			timeout: 300000,
-			contentType: 'application/json',			
-			success: function(data) {				
-				getPaper();
-			},error: function(xhr, textStatus, errorThrown) {             
-				console.log("error:", xhr, textStatus, errorThrown);
-			}
-		});
-	}
-	function motifyPaper(_n){
-		$('.paper li').eq(_n).find('.posttitle').html('<textarea>'+$('.paper li').eq(_n).find('.posttitle').text()+'</textarea>');
-		$('.paper li').eq(_n).find('.postdes').html('<textarea>'+$('.paper li').eq(_n).find('.postdes').text()+'</textarea>');
-	}
-	function motifyPaperEnd(_n){
-		showLoading(true);
-		$.ajax({
-			url: 'https://api.mlab.com/api/1/databases/chinesechess2016/collections/paperid/'+webData.newPaperdata[_n]._id.$oid+'?apiKey='+ webData.mlabApikey,
-			type: 'PUT',
-			contentType: 'application/json',
-			data:JSON.stringify({
-				postdate:new Date(),
-				postdes:$('.paper li').eq(_n).find('.postdes').find('textarea').val(),
-				postid:webData.newPaperdata[_n].postid,
-				posttitle:$('.paper li').eq(_n).find('.posttitle').find('textarea').val(),
-			}),
-			success: function(data) {
-				getPaper();
-			},error: function(xhr, textStatus, errorThrown) {             
-				console.log("error:", xhr, textStatus, errorThrown);
-			}
-		});
-	}
-	function getPaper(){		
-		$.ajax({
-			url: 'https://api.mlab.com/api/1/databases/chinesechess2016/collections/paperid?apiKey='+ webData.mlabApikey,
-			type: 'GET',
-			contentType: 'application/json',
-			success: function(data) {				
-				webData.newPaperdata = data;
-				putPaper();
-			},error: function(xhr, textStatus, errorThrown) {             
-				console.log("error:", xhr, textStatus, errorThrown);
-			}
-		});
-	}
-	function putPaper(){
-		$('.paper').html('');
-		for(i in webData.newPaperdata){			
-			$('.paper').append('<li><div class="postid">'+webData.newPaperdata[i].postdate+'</div><div class="posttitle">'+webData.newPaperdata[i].posttitle+'</div><div class="postdes">'+webData.newPaperdata[i].postdes+'</div><div class="btn"><div class="motify"></div><div class="delbtn"></div></div></li>');
-		}
-		$('.paper .delbtn').click(function(){
-			deletPaper($(this).parent().parent().index());
-		});
-		$('.paper .motify').click(function(){
-			if($(this).hasClass('on')){
-				$(this).removeClass('on');
-				motifyPaperEnd($(this).parent().parent().index());
-			}
-			else{
-				$(this).addClass('on');
-				motifyPaper($(this).parent().parent().index());
-			}
-		});
-		showLoading(false);
-	}
-	function insertPaper(){
-		webData.nowtime = new Date();
-		webData.posttitleval = $('.new .posttitle').val();
-		webData.postdesval = $('.new .postdes').val();
-		if(!webData.posttitleval || !webData.nowtime || !webData.postdesval){
-			alert("請填寫資料內容");
-			return;
-		}
-		showLoading(true);
-		$.ajax({
-			url: 'https://api.mlab.com/api/1/databases/chinesechess2016/collections/paperid?apiKey='+ webData.mlabApikey,
-			type: 'POST',
-			contentType: 'application/json',
-			data:JSON.stringify({
-				postdate:webData.nowtime,
-				postdes:webData.postdesval,
-				postid:"0000",
-				posttitle:webData.posttitleval,
-			}),
-			success: function(data) {				
-				clearForm();
-				getPaper();
-			},error: function(xhr, textStatus, errorThrown) {             
-				console.log("error:", xhr, textStatus, errorThrown);
-			}
-		});
-	}
+	}	
 	function clearForm(){
-		webData.posttitleval = '';
-		webData.nowtime = '';
-		webData.postdesval = '';
-		$('.new .posttitle').val('');
-		$('.new .postdes').val('');
 		$('.login_page_sign .signname').val('');
 		$('.login_page_sign .signpassword').val('');
 		$('.login_page_sign .signaccount').val('');
 		$('.login_page_sign .signemail').val('');
 		$('.login_pagein').find('input').val('');
-	}
-	function showlogin_page(_t){		
-		if(_t) $('.login_page').fadeIn();
-		else $('.login_page').fadeOut();
-	}
+	}	
 	function showLoading(_t){
 		if(_t) $('.loading').fadeIn();
 		else{
