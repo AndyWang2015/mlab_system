@@ -91,7 +91,7 @@
 			$.cookie("useraccount", webData.islogin[0].useraccount);
 			$.cookie("userpassword", webData.islogin[0].userpassword);
 			$.cookie("username", webData.islogin[0].username);
-			window.location.href="main.html";
+			window.location.href="main.html" + window.location.hash;
 		}else{			
 			showLoading(false);
 			alert(webData.loginerrortxt);			

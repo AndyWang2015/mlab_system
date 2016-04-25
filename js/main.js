@@ -14,7 +14,7 @@
 			$('.userMenu .name').html($.cookie("username"));
 			getPaper();
 		}
-		else window.location.href="index.html";
+		else window.location.href="index.html" + window.location.hash;
 	});
 
 	//Event	
@@ -142,7 +142,7 @@
             url: 'https://api.imgur.com/3/image',
             method: 'POST',
             headers: {
-              Authorization: 'Bearer 7cca1c5c91788293fee47eae1579c66b28db8c41',
+              Authorization: 'Bearer dda8820b12e7a3d7f46fad118484a2da0d3f72a5',
               Accept: 'application/json'
             },
             data: {
