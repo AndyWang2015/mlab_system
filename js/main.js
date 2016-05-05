@@ -1,6 +1,7 @@
 ﻿$(document).ready(function(){
 	var webData ={};
 	webData.mlabApikey = "n6FXodWWCdM14KrePZHrRPPovbzboRn6";
+	webData.imgurappid = "752b0363900112d";
 	webData.creatUsererrortxt = "請填寫完整資料";
 
 	//Addlistener
@@ -10,9 +11,15 @@
 
 	$(window).load(function(){
 		if(checkLogin()){
-			$('.userMenu .icon').html($.cookie("useraccount").substring(0, 1));
-			$('.userMenu .name').html($.cookie("username"));
-			getPaper();
+			try{
+				webData.imgurToken = window.location.href.split('#')[1].split('&')[0].replace('access_token=','');
+				$('.userMenu .icon').html($.cookie("useraccount").substring(0, 1));
+				$('.userMenu .name').html($.cookie("username"));
+				getPaper();
+			}
+			catch(err){
+				window.location.href = 'https://api.imgur.com/oauth2/authorize?response_type=token&client_id='+webData.imgurappid;
+			}												
 		}
 		else window.location.href="index.html" + window.location.hash;
 	});
@@ -77,7 +84,20 @@
 			}
 		});
 	}
-	function getPaper(){		
+	function getPaper(){
+		$.ajax({
+			url: 'https://api.mlab.com/api/1/databases/chinesechess2016/collections/paperid?apiKey='+ webData.mlabApikey,
+			type: 'GET',
+			contentType: 'application/json',
+			success: function(data) {				
+				webData.newPaperdata = data;
+				putPaper();
+			},error: function(xhr, textStatus, errorThrown) {             
+				console.log("error:", xhr, textStatus, errorThrown);
+			}
+		});		
+	}
+	function getPaperTrue(){		
 		$.ajax({
 			url: 'https://api.mlab.com/api/1/databases/chinesechess2016/collections/paperid?apiKey='+ webData.mlabApikey,
 			type: 'GET',
@@ -137,12 +157,12 @@
 		}
 		else insertPaperEnd();	
 	}
-	function uploadimgtoImgur(_imgurl,callback){
+	function uploadimgtoImgur(_imgurl,callback){		
 		$.ajax({
             url: 'https://api.imgur.com/3/image',
             method: 'POST',
             headers: {
-              Authorization: 'Bearer dda8820b12e7a3d7f46fad118484a2da0d3f72a5',
+              Authorization: 'Bearer '+webData.imgurToken,
               Accept: 'application/json'
             },
             data: {
@@ -152,8 +172,11 @@
             success: function(result) {
             	webData.uploadImgTrue = result.data.link;
             	callback();
-            }
-        });
+            },error: function(xhr, textStatus, errorThrown) {             
+				console.log("error:", xhr, textStatus, errorThrown);
+				window.location.href = 'https://api.imgur.com/oauth2/authorize?response_type=token&client_id='+webData.imgurappid;
+			}
+        });        
 	}
 	function insertPaperEnd(){
 		$.ajax({
@@ -194,99 +217,3 @@
 	}
 	
 })//ready end  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
