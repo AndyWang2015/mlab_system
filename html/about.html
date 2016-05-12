@@ -42,32 +42,46 @@
       <a href="javascript:;" gopage="contact.html" class="menua">聯絡我們</a>
     </div>    
   </div>
-  <div class="wrapper">
+  <div class="sec_menu">
+    <a href="javascript:;" class="menua" gopage="about.html?page=1">台北分會</a>
+    <a href="javascript:;" class="menua" gopage="about.html?page=2">北投分會</a>
+    <a href="javascript:;" class="menua" gopage="about.html?page=3">高雄分會</a>
+  </div>
+  <div class="wrapper about">
     <div class="wrapperin">
       <div class="wrapper_main">        
-        <div class="title">首頁<span>後台系統</span></div>        
+        <div class="title">協會簡介<span>後台系統</span></div>
+        <div class="t">          
+          <div class="postphoto">分會封面</div>
+          <div class="posttitle">分會標題</div>
+          <div class="postdes">分會介紹</div>          
+          <div class="postid">　</div>
+          <div class="btn">功能</div>
+        </div>
+        <ul class="paper" num="0"></ul>
+        <div class="title notop">協會師資</div>
         <div class="new">
           <div class="databox">
             <div class="lt">
-              <input type="text" placeholder="請輸入文章標題" class="posttitle">
-              <textarea type="text" placeholder="請輸入文章內容" class="postdes"></textarea>
+              <input type="text" placeholder="請輸入老師名稱" class="posttitle">
+              <textarea type="text" placeholder="請輸入老師簡介" class="postdes"></textarea>
             </div>            
             <div class="rt addImg">
               <input type="file" name="file" id="imgInput" accept="image/*" capture="camera">
-              <label class="imgInputlabel" for="imgInput"><span>點擊新增圖片</span></label>
+              <label class="imgInputlabel" for="imgInput"><span>點擊新增照片</span></label>
               <img src="">
             </div>
           </div>
           <button class="gobtn">確定新增</button>
-        </div>        
-        <div class="t">          
-          <div class="postphoto">文章圖片</div>
-          <div class="posttitle">文章標題</div>
-          <div class="postdes">文章內容</div>
-          <div class="postid">資料時間</div>
+        </div>
+        <div class="t">
+          <div class="postphoto">老師照片</div>
+          <div class="posttitle">老師名稱</div>
+          <div class="postdes">老師簡介</div>          
+          <div class="postid">　</div>
           <div class="btn">功能</div>
         </div>
-        <ul class="paper"></ul>
+        <ul class="paper" num="1"></ul>
       </div>      
     </div>
   </div>

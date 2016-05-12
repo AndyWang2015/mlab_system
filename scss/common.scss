@@ -1,12 +1,9 @@
 @import "base.scss";
 
-body {
-    background: #eee;
-}
 .loading{
 	@include f;
-	z-index:999;
-	background-color:rgba(238,238,238,1);
+	z-index:9999;
+	background-color:rgba(255,255,255,0.8);
 	&.on{
 		background-color:rgba(255,255,255,0.8);
 	}
@@ -21,9 +18,65 @@ body {
 	@include r;
 	.wrapperin{
 		position:relative;
-		width:1000px;
-		margin:auto;
+		width:98%;		
+		margin:0 1%;
 	}
+}
+.menu{
+	@include f(100%,auto);
+	text-align: center;
+	background-color: #51711b;
+	z-index: 999;
+	.menuin{
+		@include r;
+		z-index: 0;
+		.logo{
+			display: inline-block;
+			vertical-align: top;
+			margin: 13px 15px;
+			img{
+				vertical-align: top;				
+			}
+		}
+		a{
+			@include font(18px,50px,#fff);
+			position: relative;
+			width: auto;
+			height: 50px;
+			display: inline-block;
+			margin: 0 15px;
+			vertical-align: top;
+			&:hover{
+				color:#f8e88e;
+			}
+		}
+	}
+	.userMenu{
+		@include a(auto,auto,auto,10px);
+		right: 25px;
+		z-index: 9;
+		.icon{
+			@include r(30px,30px);
+			@include border-radius(15px);
+			@include font(21px,30px,#FFF,normal,'Arial');
+			margin-right: 5px;
+			text-align: center;
+			text-transform:uppercase;
+			background-color: rgba(255,255,255,0.2);
+		}
+		.name{
+			@include r(auto,30px);
+			@include font(15px,30px,#fff);
+			margin-right: 20px;
+		}
+		.logoutbtn{
+			@include r(auto,30px);
+			@include font(15px,30px,#fff);
+			cursor: pointer;
+			&:hover{color:#f8e88e;}
+		}
+	}
+	
 }
 
 .login_page{
@@ -120,37 +173,33 @@ body {
 		}
 	}
 }
-.wrapper_main{
-	@include r;
-	.userMenu{
-		@include f(auto,auto,auto,25px);
-		right: 25px;
-		.icon{
-			@include r(30px,30px);
-			@include border-radius(15px);
-			@include font(21px,30px,#FFF,normal,'Arial');
-			margin-right: 5px;
-			text-align: center;
-			text-transform:uppercase;
-			background-color: #78909c;
-		}
-		.name{
-			@include r(auto,30px);
-			@include font(15px,30px,#333);
-			margin-right: 20px;
-		}
-		.logoutbtn{
-			@include r(auto,30px);
-			@include font(15px,30px,#333);
-			cursor: pointer;
-			&:hover{color:#999;}
+.sec_menu{
+	@include f(100%,auto,0,50px);
+	text-align: center;
+	background-color: rgba(81,113,27,0.5);	
+	z-index: 999;
+	a{
+		@include font(18px,50px,#fff);
+		position: relative;
+		width: auto;
+		height: 50px;
+		display: inline-block;
+		margin: 0 15px;
+		vertical-align: top;
+		&:hover,&.on{
+			color:#f8e88e;
 		}
 	}
+}
+.wrapper_main{
+	@include r;	
 	.title{
 		@include r;
 		@include font(60px,72px,#000);
 		text-align:center;		
-		margin-top:50px;
+		margin-top:130px;
+		margin-bottom: 30px;
+		&.notop{margin-top: 0;}
 		span{
 			@include a(auto,auto,auto,auto);
 			@include font(15px,25px,#666);
@@ -160,7 +209,6 @@ body {
 	}
 	.new{
 		@include r;
-		margin-top:30px;
 		margin-bottom:30px;
 		box-sizing:border-box;
 		padding:10px;
@@ -247,7 +295,7 @@ body {
 	}
 	.paper{
 		@include r;	
-		padding-bottom: 100px;
+		padding-bottom: 50px;
 		li{
 			@include r;
 			@include font(12px,24px,#000);		
@@ -257,6 +305,11 @@ body {
 			word-break:break-all;
 			&:nth-child(2n){
 				background-color:#eee;
+			}
+			textarea{
+				@include r(90%);
+				margin-left: 5%;
+				min-height: 50px;
 			}
 			.postid{
 				@include r(10%);
@@ -320,5 +373,10 @@ body {
 		}
 	}	
 }
-
+@media screen and (max-width: 1200px) {
+	.userMenu{
+		.name{display: none;}
+		.icon{display: none;}
+	}
+}
 
