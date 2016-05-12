@@ -13,7 +13,7 @@
 		webData.nowpage = getUrlVars()['page'].replace('#access_token','');
 	}
 	catch(err){
-		webData.nowpage = getUrlVars()['page'];
+		webData.nowpage = 1;
 	}
 	if(webData.wrp.hasClass('about')) getDataCollection('aboutus_page',aboutfunction);
 	else showLoading(false);
