@@ -16,6 +16,7 @@
 		webData.nowpage = getUrlVars()['page'];
 	}
 	if(webData.wrp.hasClass('about')) getDataCollection('aboutus_page',aboutfunction);
+	else showLoading(false);
 
 	//Addlistener	
 	$('.menua').click(function(){menuaclick($(this));});
