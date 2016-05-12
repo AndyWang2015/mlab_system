@@ -9,7 +9,12 @@
 	//text = text.replace(/\n\r?/g, '<br />');
 
 	//init
-	webData.nowpage = getUrlVars()['page'].replace('#access_token','');	
+	try{
+		webData.nowpage = getUrlVars()['page'].replace('#access_token','');
+	}
+	catch(err){
+		webData.nowpage = getUrlVars()['page'];
+	}
 	if(webData.wrp.hasClass('about')) getDataCollection('aboutus_page',aboutfunction);
 
 	//Addlistener	
