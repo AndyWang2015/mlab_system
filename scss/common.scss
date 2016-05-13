@@ -19,7 +19,8 @@
 	.wrapperin{
 		position:relative;
 		width:98%;		
-		margin:0 1%;
+		// max-width: 1360px;
+		margin:auto;
 	}
 }
 .menu{
@@ -207,24 +208,62 @@
 			bottom: 0;
 		}
 	}
+	.addgame{
+		@include r;
+		box-sizing:border-box;
+		padding:10px;
+		background-color:#e8e8e8;
+		margin-bottom: 15px;
+		.databox{
+			@include r(83%);
+			margin-right: 1%;
+			.posttitle{
+				@include r(100%);
+				@include font(15px,27px,#000);
+				background-color:#FFF;
+				box-sizing:border-box;
+				padding:5px;		
+			}
+		}
+		.gogamebtn{
+			@include r(16%);
+			@include font(15px,27px,#fff);		
+			background-color:#999;
+			text-align:center;
+			cursor: pointer;
+		}
+	}
+	.gameboxout{
+		@include r;
+		.gamebox{
+			@include r;
+		}
+	}
 	.new{
 		@include r;
 		margin-bottom:30px;
 		box-sizing:border-box;
 		padding:10px;
 		background-color:#e8e8e8;
+		&.awardspapertitle{
+			margin-bottom: 15px;
+		}
 		.databox{
 			@include r(84%);
 			.lt{
 				@include r(49%);
 				margin-right: 2%;
+				&.newsdatabox{
+					margin-right: 0%;
+					margin-left: 2%;
+				}
 				.ltlt{
 					@include r(49%);
 					margin-right: 2%;
 				}
 				input,textarea{
 					@include r(100%);
-					@include font(15px,27px,#000);		
+					@include font(15px,27px,#000);
 					background-color:#FFF;					
 					margin-bottom: 2%;
 					box-sizing:border-box;
@@ -288,7 +327,8 @@
 					}
 				}
 				img{
-					@include r;
+					max-width: 100%;
+					display: inline-block;
 					opacity: 0;
 					transition:0.3s;
 					z-index: 0;					
@@ -309,6 +349,16 @@
 		box-sizing:border-box;
 		padding:10px;
 		color:#FFF;
+		&.awardspapertitle{
+			background-color: #ea483e;
+			.posttitle{
+				@include r(90%);
+				text-align: center;
+			}
+			.btn{
+				@include r(10%,100%);
+			}
+		}
 		.postid{
 			@include r(10%);
 			text-align:center;
@@ -331,6 +381,26 @@
 	.paper{
 		@include r;	
 		padding-bottom: 50px;
+		&.awardspapertitle{
+			padding-bottom: 0;
+			li{
+				.posttitle{
+					@include r(90%);
+					@include font(32px,32px,#000);
+					text-align: center;
+				}
+				.btn{
+					@include r(10%,100%);
+				}
+				textarea{
+					@include font(32px,32px,#000);
+					box-sizing:border-box;
+					padding: 10px;
+					min-height: 70px;
+					text-align: center;
+				}
+			}
+		}
 		li{
 			@include r;
 			@include font(12px,24px,#000);		
@@ -344,7 +414,7 @@
 			textarea{
 				@include r(90%);
 				margin-left: 5%;
-				min-height: 50px;
+				min-height: 150px;
 			}
 			#imgInputMotify{display: none;}
 			#imgInputMotify2{display: none;}

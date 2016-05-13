@@ -42,32 +42,58 @@
       <a href="javascript:;" gopage="contact.html" class="menua">聯絡我們</a>
     </div>    
   </div>
-  <div class="wrapper">
+  <div class="wrapper awards">
     <div class="wrapperin">
       <div class="wrapper_main">        
-        <div class="title">首頁</div>        
-        <div class="new">
+        <div class="title">榮譽榜</div>
+        <div class="addgame">
           <div class="databox">
-            <div class="lt">
-              <input type="text" placeholder="請輸入文章標題" class="posttitle">
-              <textarea type="text" placeholder="請輸入文章內容" class="postdes"></textarea>
-            </div>            
-            <div class="rt addImg">
-              <input type="file" name="file" id="imgInput" accept="image/*" capture="camera">
-              <label class="imgInputlabel" for="imgInput"><span>點擊新增圖片</span></label>
-              <img src="">
-            </div>
+            <input type="text" placeholder="請輸入比賽名稱" class="posttitle">
           </div>
-          <button class="gobtn">確定新增</button>
+          <button class="gogamebtn">確定新增榮譽榜</button>
+        </div>    
+        <div class="gameboxout">
+          <div class="gamebox" gamenum="0">
+            <div class="t">
+              <div class="posttitle">比賽名稱</div>              
+              <div class="btn">功能</div>
+            </div>
+            <ul class="paper" num="0"></ul>
+            <div class="new">
+              <div class="databox">       
+                <div class="lt">
+                  <input type="text" placeholder="請輸入姓名" class="username">
+                  <input type="text" placeholder="請輸入獎項" class="userdes">
+                </div>
+              </div>
+              <button class="gobtn">確定新增</button>
+            </div>
+            <div class="t">
+              <div class="posttitle">姓名</div>
+              <div class="postdes">獎項</div>
+              <div class="btn">功能</div>
+            </div>
+            <ul class="paper" num="1"></ul>
+          </div>
+          <div class="gamebox" gamenum="1">
+            <ul class="paper" num="0"></ul>
+            <div class="new">
+              <div class="databox">       
+                <div class="lt">
+                  <input type="text" placeholder="請輸入姓名" class="username">
+                  <input type="text" placeholder="請輸入獎項" class="userdes">
+                </div>
+              </div>
+              <button class="gobtn">確定新增</button>
+            </div>
+            <div class="t">
+              <div class="posttitle">姓名</div>
+              <div class="postdes">獎項</div>
+              <div class="btn">功能</div>
+            </div>
+            <ul class="paper" num="1"></ul>
+          </div>
         </div>        
-        <div class="t">          
-          <div class="postphoto">文章圖片</div>
-          <div class="posttitle">文章標題</div>
-          <div class="postdes">文章內容</div>
-          <div class="postid">資料時間</div>
-          <div class="btn">功能</div>
-        </div>
-        <ul class="paper"></ul>
       </div>      
     </div>
   </div>

@@ -54,14 +54,7 @@
         <div class="title">最新消息</div>
         <div class="new">
           <div class="databox">
-            <div class="lt">
-              <div class="ltlt">
-                <input type="text" placeholder="請輸入標題" class="newstitle">
-                <textarea type="text" placeholder="請輸入內文簡介" class="newssword"></textarea>
-              </div>              
-              <textarea type="text" placeholder="請輸入內文" class="newsbword"></textarea>              
-            </div>            
-            <div class="rt addImg">
+            <div class="rt addImg newsdatabox">
               <div class="rt1">
                 <input type="file" name="file" id="newsimgInput" accept="image/*" capture="camera">
                 <label class="imgInputlabel" for="newsimgInput"><span>點擊新增圖片</span></label>
@@ -73,15 +66,22 @@
                 <img src="">
               </div>              
             </div>
+            <div class="lt newsdatabox">
+              <div class="ltlt">
+                <input type="text" placeholder="請輸入標題" class="newstitle">
+                <textarea type="text" placeholder="請輸入內文簡介" class="newssword"></textarea>
+              </div>              
+              <textarea type="text" placeholder="請輸入內文" class="newsbword"></textarea>              
+            </div>
           </div>
           <button class="gobtn">確定新增</button>
         </div>
         <div class="t">          
           <div class="newsbpic">圖片</div>          
           <div class="newsspic">圖片縮圖</div>
-          <div class="newstitle">標題</div>          
-          <div class="newsbword">內文</div>          
-          <div class="newssword">內文簡介</div>          
+          <div class="newstitle">標題</div>
+          <div class="newssword">內文簡介</div>
+          <div class="newsbword">內文</div>
           <div class="btn">功能</div>
         </div>
         <ul class="paper" num="0"></ul>              
