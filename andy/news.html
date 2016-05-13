@@ -43,45 +43,48 @@
     </div>    
   </div>
   <div class="sec_menu">
-    <a href="javascript:;" class="menua" gopage="about.html?page=1">台北分會</a>
-    <a href="javascript:;" class="menua" gopage="about.html?page=2">北投分會</a>
-    <a href="javascript:;" class="menua" gopage="about.html?page=3">高雄分會</a>
+    <a href="javascript:;" class="menua" gopage="news.html?page=1">比賽賽評</a>
+    <a href="javascript:;" class="menua" gopage="news.html?page=2">各項活動</a>
+    <a href="javascript:;" class="menua" gopage="news.html?page=3">LINE加好友</a>
+    <a href="javascript:;" class="menua" gopage="news.html?page=4">首頁-棋聞奕事</a>
   </div>
-  <div class="wrapper about">
+  <div class="wrapper news">
     <div class="wrapperin">
       <div class="wrapper_main">        
-        <div class="title">協會簡介</div>
-        <div class="t">          
-          <div class="postphoto">分會封面</div>
-          <div class="posttitle">分會標題</div>
-          <div class="postdes">分會介紹</div>          
-          <div class="postid">　</div>
-          <div class="btn">功能</div>
-        </div>
-        <ul class="paper" num="0"></ul>
-        <div class="title notop">協會師資</div>
+        <div class="title">最新消息</div>
         <div class="new">
           <div class="databox">
             <div class="lt">
-              <input type="text" placeholder="請輸入老師名稱" class="posttitle">
-              <textarea type="text" placeholder="請輸入老師簡介" class="postdes"></textarea>
+              <div class="ltlt">
+                <input type="text" placeholder="請輸入標題" class="newstitle">
+                <textarea type="text" placeholder="請輸入內文簡介" class="newssword"></textarea>
+              </div>              
+              <textarea type="text" placeholder="請輸入內文" class="newsbword"></textarea>              
             </div>            
             <div class="rt addImg">
-              <input type="file" name="file" id="imgInput" accept="image/*" capture="camera">
-              <label class="imgInputlabel" for="imgInput"><span>點擊新增照片</span></label>
-              <img src="">
+              <div class="rt1">
+                <input type="file" name="file" id="newsimgInput" accept="image/*" capture="camera">
+                <label class="imgInputlabel" for="newsimgInput"><span>點擊新增圖片</span></label>
+                <img src="">
+              </div>
+              <div class="rt2">
+                <input type="file" name="file" id="newsimgInput2" accept="image/*" capture="camera">
+                <label class="imgInputlabel" for="newsimgInput2"><span>點擊新增圖片縮圖</span></label>
+                <img src="">
+              </div>              
             </div>
           </div>
           <button class="gobtn">確定新增</button>
         </div>
-        <div class="t">
-          <div class="postphoto">老師照片</div>
-          <div class="posttitle">老師名稱</div>
-          <div class="postdes">老師簡介</div>          
-          <div class="postid">　</div>
+        <div class="t">          
+          <div class="newsbpic">圖片</div>          
+          <div class="newsspic">圖片縮圖</div>
+          <div class="newstitle">標題</div>          
+          <div class="newsbword">內文</div>          
+          <div class="newssword">內文簡介</div>          
           <div class="btn">功能</div>
         </div>
-        <ul class="paper" num="1"></ul>
+        <ul class="paper" num="0"></ul>              
       </div>      
     </div>
   </div>
