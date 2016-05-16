@@ -23,6 +23,12 @@
 	}
 	else if(webData.wrp.hasClass('awards')) getDataCollection('awards',awardsfunction);
 	else if(webData.wrp.hasClass('link')) getDataCollection('otherlink',linkfunction);
+	else if(webData.wrp.hasClass('contact')){
+		webData.contactload=0;
+		webData.learndata = [];
+		getDataLearnCollection('contactus',contactfunction);
+		getDataLearnCollection('emailbox',contactfunction);
+	}
 
 	else showLoading(false);
 
@@ -50,6 +56,46 @@
 	});
 
 	//Event	
+	function contactfunction(){
+		webData.contactload+=1;
+		if(webData.contactload<2)return;
+		for(var i =0;i<webData.learndata.length;i++){
+			if(webData.learndata[i].collectname == "contactus"){
+				for(var j=0;j<webData.learndata[i].length;j++) $('.paper_addr').append('<li><div class="posttitle">'+webData.learndata[i][j].addr+'</div><div class="btn" item="'+j+'" num="'+i+'"><div title="修改" class="motify"></div><div title="刪除" class="delbtn"></div></div></li>');
+			}
+			else if(webData.learndata[i].collectname == "emailbox"){
+				for(var j=0;j<webData.learndata[i].length;j++){
+					$('.paper_mail').append('<li><div class="contact_name">'+webData.learndata[i][j].username+'</div><div class="contact_phone">'+webData.learndata[i][j].userphone+'</div><div class="contact_email">'+webData.learndata[i][j].useremail+'</div><div class="contact_des">'+webData.learndata[i][j].userword+'</div><div class="contact_date">'+webData.learndata[i][j].postdate+'</div><div class="btn" item="'+j+'" num="'+i+'"><div title="刪除" class="delbtn"></div></div></li>');
+				}
+			}
+		}
+		afterinsertcontactdata();
+	}
+	function afterinsertcontactdata(){
+		$('.paper_addr .delbtn').click(function(){	
+			if($(this).parent().find('.motify').hasClass('on')){
+				$(this).parent().find('.motify').removeClass('on');
+				motifyPaper(false,$(this).parent().attr('item'),$(this).parent().attr('num'));
+			}else alert("地址是必要資料，無法刪除。");
+		});
+		$('.paper_addr .motify').click(function(){			
+			if($(this).hasClass('on')){
+				$(this).removeClass('on');	
+				motifyPaperEnd($(this).parent().attr('item'),$(this).parent().attr('num'));
+			}
+			else{
+				$(this).addClass('on');
+				motifyPaper(true,$(this).parent().attr('item'));
+			}
+		});
+		$('.paper_mail .delbtn').click(function(){
+			var r = confirm("確定刪除留言嗎?");
+		    if (r == true) deletPaper($(this).parent().attr('item'),$(this).parent().attr('num'));
+		});
+		$('.menuin a').removeClass('on').eq(6).addClass('on');
+		showLoading(false);
+	}
+	/*不要動*/
 	function linkfunction(){
 		console.log(webData.newPaperdata);
 		for(var i=0;i<webData.newPaperdata.length;i++){
@@ -77,8 +123,7 @@
 		});
 		$('.menuin a').removeClass('on').eq(5).addClass('on');
 		showLoading(false);
-	}
-	/*不要動*/
+	}	
 	function insertgame(){
 		webData.insertdata = {
 			title:$('.addgame .posttitle').val().replace(/\n\r?/g, '<br>'),
@@ -409,6 +454,11 @@
 				_tmp.find('.posttitle').html('<a href="'+webData.newPaperdata[_n].link+'">'+webData.newPaperdata[_n].link+'</a>');
 				_tmp.find('.postphoto').html('<img src="' + webData.newPaperdata[_n].pic + '">');
 			}
+		}	
+		//contact
+		else if(webData.wrp.hasClass('contact')){
+			if(_t) $('.paper_addr li').eq(_n).find('.posttitle').html('<textarea>'+ $('.paper_addr li').eq(_n).find('.posttitle').html().replace(/<br>/g,'\n')+'</textarea>');
+			else $('.paper_addr li').eq(_n).find('.posttitle').html(webData.learndata[_num][_n].addr);
 		}				
 	}
 	function motifyPaperEnd(_n,_num){		
@@ -451,6 +501,11 @@
 				webData.uploadImgTrue = $('.paper li').eq(_n).find('.postphoto').find('img').attr('src');
 				motifyPaperFinal();
 			}
+		}
+		else if(webData.wrp.hasClass('contact')){
+			webData._n = _n;	
+			webData._num = _num;			
+			motifyPaperFinal();			
 		}
 	}	
 	function motifyPaperFinal(){
@@ -544,6 +599,21 @@
 				}
 			});	
 		}
+		else if(webData.wrp.hasClass('contact')){
+			webData.learndata[webData._num][webData._n].addr = $('.paper_addr li').eq(webData._n).find('.posttitle textarea').val();
+			if(!webData.learndata[webData._num][webData._n].addr){alert(webData.creatUsererrortxt);return;}
+			$.ajax({
+				url: 'https://api.mlab.com/api/1/databases/chinesechess2016/collections/contactus'+webData.nowpage+'/'+webData.learndata[webData._num][webData._n]._id.$oid+'?apiKey='+ webData.mlabApikey,
+				type: 'PUT',
+				contentType: 'application/json',
+				data:JSON.stringify(webData.learndata[webData._num][webData._n]),
+				success: function(data) {
+					location.reload();
+				},error: function(xhr, textStatus, errorThrown) {             
+					console.log("error:", xhr, textStatus, errorThrown);
+				}
+			});	
+		}
 	}
 	function deletPaper(_n,_num){
 		showLoading(true);
@@ -592,6 +662,20 @@
 		else if(webData.wrp.hasClass('link')){
 			$.ajax({
 				url: 'https://api.mlab.com/api/1/databases/chinesechess2016/collections/otherlink'+webData.nowpage+'/'+webData.newPaperdata[_n]._id.$oid+'?apiKey='+ webData.mlabApikey,
+				type: "DELETE",
+				async: true,
+				timeout: 300000,
+				contentType: 'application/json',			
+				success: function(data) {
+					location.reload();
+				},error: function(xhr, textStatus, errorThrown) {             
+					console.log("error:", xhr, textStatus, errorThrown);
+				}
+			});
+		}
+		else if(webData.wrp.hasClass('contact')){
+			$.ajax({
+				url: 'https://api.mlab.com/api/1/databases/chinesechess2016/collections/emailbox'+webData.nowpage+'/'+webData.learndata[_num][_n]._id.$oid+'?apiKey='+ webData.mlabApikey,
 				type: "DELETE",
 				async: true,
 				timeout: 300000,
@@ -803,7 +887,7 @@
 	}
 	function getDataCollection(_collectname,_callback){
 		$.ajax({
-			url: 'https://api.mlab.com/api/1/databases/chinesechess2016/collections/'+_collectname+webData.nowpage+'?apiKey='+ webData.mlabApikey,
+			url: 'https://api.mlab.com/api/1/databases/chinesechess2016/collections/'+_collectname+webData.nowpage+'?s={"_id":-1}&apiKey='+ webData.mlabApikey,
 			type: 'GET',
 			contentType: 'application/json',
 			success: function(data) {
@@ -816,7 +900,7 @@
 	}
 	function getDataLearnCollection(_collectname,_callback){
 		$.ajax({
-			url: 'https://api.mlab.com/api/1/databases/chinesechess2016/collections/'+_collectname+webData.nowpage+'?apiKey='+ webData.mlabApikey,
+			url: 'https://api.mlab.com/api/1/databases/chinesechess2016/collections/'+_collectname+webData.nowpage+'?s={"_id":-1}&apiKey='+ webData.mlabApikey,
 			type: 'GET',
 			contentType: 'application/json',
 			success: function(data) {

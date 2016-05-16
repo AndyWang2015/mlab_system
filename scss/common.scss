@@ -359,6 +359,16 @@
 				@include r(10%,100%);
 			}
 		}
+		.contact_name,.contact_phone,.contact_email{
+			@include r(15%);
+			text-align:center;
+		}
+		.contact_des{
+			@include r(45%);
+			text-align:left;
+			box-sizing:border-box;
+			padding: 0 10px;
+		}
 		.postid{
 			@include r(10%);
 			text-align:center;
@@ -377,6 +387,136 @@
 		}
 		.newsbpic,.newstitle,.newsbword,.newsspic,.newssword{@include r(18%);text-align: center;}
 
+	}
+	.paper_addr{
+		@include r;
+		padding-bottom: 50px;
+		li{
+			@include r;
+			@include font(12px,24px,#000);		
+			box-sizing:border-box;
+			padding:15px 10px;
+			background-color:#FFF;			
+			word-break:break-all;
+			&:nth-child(2n){
+				background-color:#eee;
+			}
+			textarea{
+				@include r(90%);
+				margin-left: 5%;
+				min-height: 50px;
+			}
+			img{
+				width: 90%;
+				vertical-align: top;
+				display: inline-block;
+				margin: 0 5%;
+				z-index: 0;
+			}
+			.posttitle{
+				@include r(35%);		
+				text-align:center;
+			}
+			.btn{
+				@include r(10%);			
+				text-align:center;
+				.motify{
+					width:24px;
+					height:24px;
+					display:inline-block;
+					margin-right:10px;
+					background:url(../images/icon-edit.png) no-repeat;
+					background-position:left;
+					cursor:pointer;
+					vertical-align:top;
+					&.on{
+						background:url(../images/status_ok.png) no-repeat;
+						background-position:center;
+						background-size:contain;
+					}
+				}
+				.delbtn{
+					width:24px;
+					height:24px;
+					display:inline-block;
+					margin-right:10px;
+					background:url(../images/icon-delete.png) no-repeat;
+					background-position:left;
+					cursor:pointer;
+					vertical-align:top;
+				}
+			}
+		}
+	}
+	.paper_mail{
+		@include r;
+		padding-bottom: 50px;
+		li{
+			@include r;
+			@include font(12px,24px,#000);		
+			box-sizing:border-box;
+			padding:15px 10px;
+			background-color:#FFF;			
+			word-break:break-all;
+			&:nth-child(2n){
+				background-color:#eee;
+			}
+			textarea{
+				@include r(90%);
+				margin-left: 5%;
+				min-height: 150px;
+			}
+			img{
+				width: 90%;
+				vertical-align: top;
+				display: inline-block;
+				margin: 0 5%;
+				z-index: 0;
+			}
+			.contact_name,.contact_phone,.contact_email{
+				@include r(15%);
+				text-align:center;
+			}
+			.contact_des{
+				@include r(35%);
+				text-align:left;
+				box-sizing:border-box;
+				padding: 0 10px;
+			}
+			.contact_date{
+				@include r(10%);
+				text-align:center;
+			}
+			.btn{
+				@include r(10%);			
+				text-align:center;
+				.motify{
+					width:24px;
+					height:24px;
+					display:inline-block;
+					margin-right:10px;
+					background:url(../images/icon-edit.png) no-repeat;
+					background-position:left;
+					cursor:pointer;
+					vertical-align:top;
+					&.on{
+						background:url(../images/status_ok.png) no-repeat;
+						background-position:center;
+						background-size:contain;
+					}
+				}
+				.delbtn{
+					width:24px;
+					height:24px;
+					display:inline-block;
+					margin-right:10px;
+					background:url(../images/icon-delete.png) no-repeat;
+					background-position:left;
+					cursor:pointer;
+					vertical-align:top;
+				}
+			}
+		}
 	}
 	.paper{
 		@include r;	
