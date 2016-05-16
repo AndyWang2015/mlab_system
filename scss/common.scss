@@ -335,7 +335,7 @@
 				}
 			}
 		}		
-		.gobtn{
+		.gobtn,.maingobtn{
 			@include r(16%);
 			@include font(15px,27px,#fff);		
 			background-color:#999;

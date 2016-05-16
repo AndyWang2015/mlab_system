@@ -4,6 +4,7 @@
 	webData.mlabApikey = "n6FXodWWCdM14KrePZHrRPPovbzboRn6";
 	webData.imgurappid = "752b0363900112d";
 	webData.creatUsererrortxt = "請填寫完整資料";
+	webData.motifyerrortxt = "上一筆資料還在修改中，請先完成上一筆修改再繼續。";
 
 	//init
 	try{webData.nowpage = getUrlVars()['page'].replace('#access_token','');}
@@ -29,10 +30,20 @@
 		getDataLearnCollection('contactus',contactfunction);
 		getDataLearnCollection('emailbox',contactfunction);
 	}
+	else if(webData.wrp.hasClass('index')){
+		webData.indexload=0;
+		webData.learndata = [];
+		getDataLearnCollection('index_banner',indexfunction);
+		getDataLearnCollection('index_photo',indexfunction);
+		getDataLearnCollection('index_video',indexfunction);
+	}
 
 	else showLoading(false);
 
 	//Addlistener	
+	$("#indeximgInput").change(function(){indexreadURL(this,$(this),0);});
+	$("#indeximgInput2").change(function(){indexreadURL(this,$(this),1);});
+	$('.maingobtn').click(function(){insertmainPaper($(this).parent().attr('nam'));});
 	$('.gogamebtn').click(function(){insertgame();});
 	$('.menua').click(function(){menuaclick($(this));});
 	$("#imgInput").change(function(){readURL(this,$(this));});
@@ -56,6 +67,94 @@
 	});
 
 	//Event	
+	function insertmainPaper(_name){
+		showLoading(true);
+		if(_name == "banner"){
+			if(webData.indexbanneruploadImg){
+				uploadimgtoImgur(webData.indexbanneruploadImg,insertmainPaperEnd);
+			}else{alert("請新增一張圖片");showLoading(false);return;}			
+		}
+		else if(_name == "photo"){
+			if(webData.indexphotouploadImg){
+				uploadimgtoImgur(webData.indexphotouploadImg,insertmainPaperEnd2);
+			}else{alert("請新增一張圖片");showLoading(false);return;}
+		}
+	}
+	function insertmainPaperEnd(){
+		webData.insertdata ={pic:webData.uploadImgTrue};
+		$.ajax({
+			url: 'https://api.mlab.com/api/1/databases/chinesechess2016/collections/index_banner'+webData.nowpage+'?apiKey='+ webData.mlabApikey,
+			type: 'POST',
+			contentType: 'application/json',
+			data:JSON.stringify(webData.insertdata),
+			success: function(data) {
+				location.reload();
+			},error: function(xhr, textStatus, errorThrown) {             
+				console.log("error:", xhr, textStatus, errorThrown);
+			}
+		});
+	}
+	function insertmainPaperEnd2(){
+		webData.insertdata ={pic:webData.uploadImgTrue};
+		$.ajax({
+			url: 'https://api.mlab.com/api/1/databases/chinesechess2016/collections/index_photo'+webData.nowpage+'?apiKey='+ webData.mlabApikey,
+			type: 'POST',
+			contentType: 'application/json',
+			data:JSON.stringify(webData.insertdata),
+			success: function(data) {
+				location.reload();
+			},error: function(xhr, textStatus, errorThrown) {             
+				console.log("error:", xhr, textStatus, errorThrown);
+			}
+		});
+	}
+	function indexfunction(){
+		webData.indexload+=1;
+		if(webData.indexload<3)return;
+		for(var i=0;i<webData.learndata.length;i++){
+			if(webData.learndata[i].collectname=="index_banner"){
+				$('.paper.banner').attr('num',i);
+				for(var j=0;j<webData.learndata[i].length;j++){
+					$('.paper.banner').append('<li><div class="postphoto"><img src="'+webData.learndata[i][j].pic+'"></div><div class="btn" item="'+j+'" num="'+i+'"><div title="修改" class="motify"></div><div title="刪除" class="delbtn"></div></div></li>')
+				}
+			}
+			else if(webData.learndata[i].collectname=="index_photo"){
+				$('.paper.photo').attr('num',i);
+				for(var j=0;j<webData.learndata[i].length;j++){
+					$('.paper.photo').append('<li><div class="postphoto"><img src="'+webData.learndata[i][j].pic+'"></div><div class="btn" item="'+j+'" num="'+i+'"><div title="修改" class="motify"></div><div title="刪除" class="delbtn"></div></div></li>')
+				}
+			}
+			else if(webData.learndata[i].collectname=="index_video"){
+				$('.paper.video').attr('num',i);
+				for(var j=0;j<webData.learndata[i].length;j++){
+					$('.paper.video').append('<li><div class="posttitle"><a href="'+webData.learndata[i][j].video+'" target="blank">'+webData.learndata[i][j].video+'</a></div><div class="btn" item="'+j+'" num="'+i+'"><div title="修改" class="motify"></div><div title="刪除" class="delbtn"></div></div></li>')
+				}
+			}
+		}
+		afterinsertindexdata();
+	}
+	function afterinsertindexdata(){
+		$('.paper .delbtn').click(function(){	
+			if($(this).parent().find('.motify').hasClass('on')){
+				$(this).parent().find('.motify').removeClass('on');
+				motifyPaper(false,$(this).parent().attr('item'),$(this).parent().attr('num'));
+			}
+			else deletPaper($(this).parent().attr('item'),$(this).parent().attr('num'));
+		});
+		$('.paper .motify').click(function(){				
+			if($(this).hasClass('on')){
+				$(this).removeClass('on');	
+				motifyPaperEnd($(this).parent().attr('item'),$(this).parent().attr('num'));
+			}
+			else{
+				$(this).addClass('on');
+				motifyPaper(true,$(this).parent().attr('item'),$(this).parent().attr('num'));
+			}
+		});
+		$('.menuin a').removeClass('on').eq(0).addClass('on');
+		showLoading(false);
+	}
+	/*不要動*/
 	function contactfunction(){
 		webData.contactload+=1;
 		if(webData.contactload<2)return;
@@ -95,7 +194,6 @@
 		$('.menuin a').removeClass('on').eq(6).addClass('on');
 		showLoading(false);
 	}
-	/*不要動*/
 	function linkfunction(){
 		console.log(webData.newPaperdata);
 		for(var i=0;i<webData.newPaperdata.length;i++){
@@ -396,6 +494,19 @@
 	/*不要動*/
 	
 	function motifyPaper(_t,_n,_num){
+		if(_t){
+			if(webData.motifyPapering){
+				alert(webData.motifyerrortxt);
+				if(_num){
+					for(var i = 0; i<$('ul').length;i++){
+						if($('ul').eq(i).attr('num')==_num) $('ul').eq(i).find('li').eq(_n).find('.motify').removeClass('on');
+					}
+				}
+				else $('ul li').eq(_n).find('.motify').removeClass('on');
+				return;
+			}
+			else webData.motifyPapering=true;
+		}else webData.motifyPapering=false;
 		//About
 		if(webData.wrp.hasClass('about')){
 			var _tmp = $('.paper').eq(_num).find('li').eq(_n);
@@ -459,6 +570,35 @@
 		else if(webData.wrp.hasClass('contact')){
 			if(_t) $('.paper_addr li').eq(_n).find('.posttitle').html('<textarea>'+ $('.paper_addr li').eq(_n).find('.posttitle').html().replace(/<br>/g,'\n')+'</textarea>');
 			else $('.paper_addr li').eq(_n).find('.posttitle').html(webData.learndata[_num][_n].addr);
+		}	
+		//index
+		else if(webData.wrp.hasClass('index')){
+			if(webData.learndata[_num].collectname=="index_banner"){
+				var _tmp = $('.paper.banner li').eq(_n);
+				if(_t){
+					_tmp.find('.postphoto').prepend('<input type="file" name="file" id="imgInputMotify" accept="image/*" capture="camera"><label class="imgInputlabel" for="imgInputMotify"><span>點擊更換</span></label>');
+					$("#imgInputMotify").change(function(){readURL(this,$(this),0);});				
+				}else{						
+					_tmp.find('.postphoto').html('<img src="' + webData.learndata[_num][_n].pic + '">');
+				}
+			}
+			else if(webData.learndata[_num].collectname=="index_photo"){
+				var _tmp = $('.paper.photo li').eq(_n);
+				if(_t){
+					_tmp.find('.postphoto').prepend('<input type="file" name="file" id="imgInputMotify2" accept="image/*" capture="camera"><label class="imgInputlabel" for="imgInputMotify2"><span>點擊更換</span></label>');
+					$("#imgInputMotify2").change(function(){readURL(this,$(this),1);});				
+				}else{	
+					_tmp.find('.postphoto').html('<img src="' + webData.learndata[_num][_n].pic + '">');
+				}
+			}
+			else if(webData.learndata[_num].collectname=="index_video"){
+				var _tmp = $('.paper.video li').eq(_n);
+				if(_t){
+					_tmp.find('.posttitle').html('<textarea>'+_tmp.find('.posttitle a').html()+'</textarea>');
+				}else{	
+					_tmp.find('.posttitle').html('<a href="'+webData.learndata[_num][_n].video+'">'+webData.learndata[_num][_n].video+'</a>');					
+				}
+			}			
 		}				
 	}
 	function motifyPaperEnd(_n,_num){		
@@ -502,10 +642,33 @@
 				motifyPaperFinal();
 			}
 		}
+		//contact
 		else if(webData.wrp.hasClass('contact')){
 			webData._n = _n;	
 			webData._num = _num;			
 			motifyPaperFinal();			
+		}
+		//index
+		else if(webData.wrp.hasClass('index')){
+			webData._n = _n;	
+			webData._num = _num;
+			if(webData.learndata[webData._num].collectname == "index_banner"){
+				if($('.paper.banner li').eq(webData._n).find('.postphoto').find('img').hasClass('on')) uploadimgtoImgur(webData.uploadImgindexbannerpic,motifyPaperFinal);
+				else{
+					webData.uploadImgTrue = $('.paper.banner li').eq(webData._n).find('.postphoto').find('img').attr('src');
+					motifyPaperFinal();
+				}
+			}
+			else if(webData.learndata[webData._num].collectname == "index_photo"){
+				if($('.paper.photo li').eq(webData._n).find('.postphoto').find('img').hasClass('on')) uploadimgtoImgur(webData.uploadImgindexphotopic,motifyPaperFinal);
+				else{
+					webData.uploadImgTrue = $('.paper.photo li').eq(webData._n).find('.postphoto').find('img').attr('src');
+					motifyPaperFinal();
+				}
+			}
+			else if(webData.learndata[webData._num].collectname == "index_video"){				
+				motifyPaperFinal();
+			}
 		}
 	}	
 	function motifyPaperFinal(){
@@ -614,6 +777,51 @@
 				}
 			});	
 		}
+		else if(webData.wrp.hasClass('index')){			
+			if(webData.learndata[webData._num].collectname == "index_banner"){
+				webData.learndata[webData._num][webData._n].pic = webData.uploadImgTrue;				
+				$.ajax({
+					url: 'https://api.mlab.com/api/1/databases/chinesechess2016/collections/index_banner'+webData.nowpage+'/'+webData.learndata[webData._num][webData._n]._id.$oid+'?apiKey='+ webData.mlabApikey,
+					type: 'PUT',
+					contentType: 'application/json',
+					data:JSON.stringify(webData.learndata[webData._num][webData._n]),
+					success: function(data) {
+						location.reload();
+					},error: function(xhr, textStatus, errorThrown) {
+						console.log("error:", xhr, textStatus, errorThrown);
+					}
+				});
+			}
+			else if(webData.learndata[webData._num].collectname == "index_photo"){
+				webData.learndata[webData._num][webData._n].pic = webData.uploadImgTrue;				
+				$.ajax({
+					url: 'https://api.mlab.com/api/1/databases/chinesechess2016/collections/index_photo'+webData.nowpage+'/'+webData.learndata[webData._num][webData._n]._id.$oid+'?apiKey='+ webData.mlabApikey,
+					type: 'PUT',
+					contentType: 'application/json',
+					data:JSON.stringify(webData.learndata[webData._num][webData._n]),
+					success: function(data) {
+						location.reload();
+					},error: function(xhr, textStatus, errorThrown) {
+						console.log("error:", xhr, textStatus, errorThrown);
+					}
+				});
+			}
+			else if(webData.learndata[webData._num].collectname == "index_video"){				
+				webData.learndata[webData._num][webData._n].video = $('.paper.video li').eq(webData._n).find('.posttitle textarea').val();
+				if(!webData.learndata[webData._num][webData._n].video){alert(webData.creatUsererrortxt);return;}
+				$.ajax({
+					url: 'https://api.mlab.com/api/1/databases/chinesechess2016/collections/index_video'+webData.nowpage+'/'+webData.learndata[webData._num][webData._n]._id.$oid+'?apiKey='+ webData.mlabApikey,
+					type: 'PUT',
+					contentType: 'application/json',
+					data:JSON.stringify(webData.learndata[webData._num][webData._n]),
+					success: function(data) {
+						location.reload();
+					},error: function(xhr, textStatus, errorThrown) {
+						console.log("error:", xhr, textStatus, errorThrown);
+					}
+				});
+			}
+		}
 	}
 	function deletPaper(_n,_num){
 		showLoading(true);
@@ -687,6 +895,41 @@
 				}
 			});
 		}
+		else if(webData.wrp.hasClass('index')){
+			var _url;
+			if(webData.learndata[_num].collectname=="index_banner"){
+				_url = 'https://api.mlab.com/api/1/databases/chinesechess2016/collections/index_banner'+webData.nowpage+'/'+webData.learndata[_num][_n]._id.$oid+'?apiKey='+ webData.mlabApikey;
+			}
+			else if(webData.learndata[_num].collectname=="index_photo"){
+				_url = 'https://api.mlab.com/api/1/databases/chinesechess2016/collections/index_photo'+webData.nowpage+'/'+webData.learndata[_num][_n]._id.$oid+'?apiKey='+ webData.mlabApikey;
+			}
+			else if(webData.learndata[_num].collectname=="index_video"){
+				_url = 'https://api.mlab.com/api/1/databases/chinesechess2016/collections/index_video'+webData.nowpage+'/'+webData.learndata[_num][_n]._id.$oid+'?apiKey='+ webData.mlabApikey;
+			}			
+			$.ajax({
+				url: _url,
+				type: "DELETE",
+				async: true,
+				timeout: 300000,
+				contentType: 'application/json',			
+				success: function(data) {
+					location.reload();
+				},error: function(xhr, textStatus, errorThrown) {             
+					console.log("error:", xhr, textStatus, errorThrown);
+				}
+			});
+		}
+	}
+	function indexreadURL(input,_o,_n){
+		if (input.files && input.files[0]) {
+            var reader = new FileReader();            
+            reader.onload = function (e) {
+            	if(_n == 0) webData.indexbanneruploadImg = e.target.result.replace(/.*,/, '');
+            	else webData.indexphotouploadImg = e.target.result.replace(/.*,/, '');	            	
+            	_o.parent().addClass('on').find('img').addClass('on').attr('src',e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
 	}
 	function newsreadURL(input,_o,_n){
 		if (input.files && input.files[0]) {
@@ -716,6 +959,18 @@
 	            reader.onload = function (e) {
 	            	if(_n == 0) webData.uploadImgbpic = e.target.result.replace(/.*,/, '');
 	            	else webData.uploadImgspic = e.target.result.replace(/.*,/, '');	            	
+	            	_o.parent().addClass('on').find('img').addClass('on').attr('src',e.target.result);
+	            }
+	            reader.readAsDataURL(input.files[0]);
+	        }
+		}
+		else if(webData.wrp.hasClass('index')){
+			if (input.files && input.files[0]) {
+	            var reader = new FileReader();            
+	            reader.onload = function (e) {
+	            	if(_n == 0) webData.uploadImgindexbannerpic = e.target.result.replace(/.*,/, '');
+	            	else webData.uploadImgindexphotopic = e.target.result.replace(/.*,/, '');	            	
+	            	console.log(_o.parent().addClass('on').find('img').addClass('on'));
 	            	_o.parent().addClass('on').find('img').addClass('on').attr('src',e.target.result);
 	            }
 	            reader.readAsDataURL(input.files[0]);
@@ -872,7 +1127,7 @@
               type: 'base64'
             },
             success: function(result) {
-            	if(webData.wrp.hasClass('about') || webData.wrp.hasClass('learn') || webData.wrp.hasClass('link')) webData.uploadImgTrue = result.data.link;
+            	if(webData.wrp.hasClass('about') || webData.wrp.hasClass('learn') || webData.wrp.hasClass('link') || webData.wrp.hasClass('index')) webData.uploadImgTrue = result.data.link;
             	if(webData.wrp.hasClass('news')){
             		webData.newspiccheck+=1;
             		if(_n==0) webData.uploadImgbpic = result.data.link;

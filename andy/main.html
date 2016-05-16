@@ -42,32 +42,47 @@
       <a href="javascript:;" gopage="contact.html" class="menua">聯絡我們</a>
     </div>    
   </div>
-  <div class="wrapper">
+  <div class="wrapper index">
     <div class="wrapperin">
       <div class="wrapper_main">        
-        <div class="title">首頁</div>        
-        <div class="new">
-          <div class="databox">
-            <div class="lt">
-              <input type="text" placeholder="請輸入文章標題" class="posttitle">
-              <textarea type="text" placeholder="請輸入文章內容" class="postdes"></textarea>
-            </div>            
+        <div class="title">首頁輪播大圖</div>
+        <div class="new" nam="banner">
+          <div class="databox">                        
             <div class="rt addImg">
-              <input type="file" name="file" id="imgInput" accept="image/*" capture="camera">
-              <label class="imgInputlabel" for="imgInput"><span>點擊新增圖片</span></label>
+              <input type="file" name="file" id="indeximgInput" accept="image/*" capture="camera">
+              <label class="imgInputlabel" for="indeximgInput"><span>點擊新增圖片</span></label>
               <img src="">
             </div>
           </div>
-          <button class="gobtn">確定新增</button>
+          <button class="maingobtn">確定新增</button>
         </div>        
         <div class="t">          
-          <div class="postphoto">文章圖片</div>
-          <div class="posttitle">文章標題</div>
-          <div class="postdes">文章內容</div>
-          <div class="postid">資料時間</div>
+          <div class="postphoto">輪播圖片</div>
           <div class="btn">功能</div>
         </div>
-        <ul class="paper"></ul>
+        <ul class="paper banner"></ul>
+        <div class="title notop">活動照片</div>
+        <div class="new" nam="photo">
+          <div class="databox">
+            <div class="rt addImg">
+              <input type="file" name="file" id="indeximgInput2" accept="image/*" capture="camera">
+              <label class="imgInputlabel" for="indeximgInput2"><span>點擊新增圖片</span></label>
+              <img src="">
+            </div>
+          </div>
+          <button class="maingobtn">確定新增</button>
+        </div>        
+        <div class="t">          
+          <div class="postphoto">照片</div>
+          <div class="btn">功能</div>
+        </div>
+        <ul class="paper photo"></ul>
+        <div class="title notop">相關影音</div>
+        <div class="t">          
+          <div class="posttitle">影音連結 - 使用youtube連結</div>
+          <div class="btn">功能</div>
+        </div>
+        <ul class="paper video"></ul>
       </div>      
     </div>
   </div>
