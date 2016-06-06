@@ -127,7 +127,7 @@
 			else if(webData.learndata[i].collectname=="index_video"){
 				$('.paper.video').attr('num',i);
 				for(var j=0;j<webData.learndata[i].length;j++){
-					$('.paper.video').append('<li><div class="posttitle"><a href="'+webData.learndata[i][j].video+'" target="blank">'+webData.learndata[i][j].video+'</a></div><div class="btn" item="'+j+'" num="'+i+'"><div title="修改" class="motify"></div><div title="刪除" class="delbtn"></div></div></li>')
+					$('.paper.video').append('<li><div class="posttitle"><a href="'+webData.learndata[i][j].video+'" target="blank">'+webData.learndata[i][j].video+'</a></div><div class="btn" item="'+j+'" num="'+i+'"><div title="修改" class="motify"></div></div></li>')
 				}
 			}
 		}
